@@ -1,175 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Token and Syndicate Session</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f0f0f0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token and Syndicate Session</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
 
-    .form-container {
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-    .form-group input {
-      width: 94%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+        .form-group input {
+            width: 94%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-    .btn {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .btn:hover {
-      background-color: #0056b3;
-    }
+        .btn:hover {
+            background-color: #0056b3;
+        }
 
-    .success-message {
-      color: green;
-      text-align: center;
-    }
-  </style>
+        .success-message {
+            color: green;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="form-container" id="app">
-    <!-- Login Form -->
-    <form id="login-form">
-      <div class="form-group">
-        <label for="username">Email</label>
-        <input type="email" id="username" placeholder="Enter your email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" required>
-      </div>
-      <button type="submit" class="btn">Login</button>
-    </form>
+    <div class="form-container" id="app">
+        <!-- Login Form -->
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="email" id="username" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
 
-    <!-- Syndicate Form -->
-    <form id="syndicate-form" style="display: none;">
-      <div class="form-group">
-        <label for="syndicateid">Syndicate Session ID</label>
-        <input type="text" id="syndicateid" placeholder="Enter Syndicate ID" required>
-      </div>
-      <div class="form-group">
-        <label for="preparationValidity">Preparation Validity (hours)</label>
-        <input type="number" id="preparationValidity" placeholder="Enter validity in hours" required>
-      </div>
-      <button type="submit" class="btn">Update Session</button>
-    </form>
+        <!-- Syndicate Form -->
+        <form id="syndicate-form" style="display: none;">
+            <div class="form-group">
+                <label for="syndicateid">Syndicate Session ID</label>
+                <input type="text" id="syndicateid" placeholder="Enter Syndicate ID" required>
+            </div>
+            <div class="form-group">
+                <label for="preparationValidity">Preparation Validity (hours)</label>
+                <input type="number" id="preparationValidity" placeholder="Enter validity in hours" required>
+            </div>
+            <button type="submit" class="btn">Update Session</button>
+        </form>
 
-    <!-- Success Message -->
-    <div class="success-message" id="success-message"></div>
-  </div>
+        <!-- Success Message -->
+        <div class="success-message" id="success-message"></div>
+    </div>
 
-  <script>
-    fetch('https://15311ed4-ip-whitelist.gdzneladze.workers.dev')
-        .then(response => {
-            if (response.ok) {
-                document.body.innerHTML = '<h1>Welcome! You have access.</h1>';
-            } else {
-                document.body.innerHTML = '<h1>Access Denied. Your IP is not whitelisted.</h1>';
-            }
-        })
-        .catch(err => {
-            document.body.innerHTML = '<h1>Error: Unable to verify IP.</h1>';
-        });
+    <script>
+        fetch('https://15311ed4-ip-whitelist.gdzneladze.workers.dev')
+            .then(response => {
+                if (response.ok) {
+                    // IP is whitelisted: show the site content
+                    document.getElementById("app").style.display = "block";
+                } else {
+                    // IP is not whitelisted: show an error message
+                    document.body.innerHTML = '<h1>Access Denied. Your IP is not whitelisted.</h1>';
+                }
+            })
+            .catch(err => {
+                // Handle errors gracefully
+                document.body.innerHTML = '<h1>Error: Unable to verify IP.</h1>';
+            });
 
-    document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form");
-  const syndicateForm = document.getElementById("syndicate-form");
-  const successMessage = document.getElementById("success-message");
+        // Initially hide the site content until IP is verified
+        document.getElementById("app").style.display = "none";
 
-  let refreshToken = null;
 
-  // Login form submit handler
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginForm = document.getElementById("login-form");
+            const syndicateForm = document.getElementById("syndicate-form");
+            const successMessage = document.getElementById("success-message");
 
-    const loginPayload = {
-      query: `
+            let refreshToken = null;
+
+            // Login form submit handler
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+
+                const loginPayload = {
+                    query: `
         mutation Login($input: LoginInput!) {
           login(input: $input) {
             refreshToken
           }
         }
       `,
-      variables: {
-        input: {
-          brandId: "ab",
-          username,
-          password,
-        },
-      },
-    };
+                    variables: {
+                        input: {
+                            brandId: "ab",
+                            username,
+                            password,
+                        },
+                    },
+                };
 
-    try {
-      const response = await fetch("https://www.ambassadoribet.com/_internal/gql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginPayload),
-      });
+                try {
+                    const response = await fetch("https://www.ambassadoribet.com/_internal/gql", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(loginPayload),
+                    });
 
-      const data = await response.json();
-      if (data?.data?.login?.refreshToken) {
-        refreshToken = data.data.login.refreshToken;
-        loginForm.style.display = "none";
-        syndicateForm.style.display = "block";
-      } else {
-        alert("Login failed. Please check your credentials.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  });
+                    const data = await response.json();
+                    if (data?.data?.login?.refreshToken) {
+                        refreshToken = data.data.login.refreshToken;
+                        loginForm.style.display = "none";
+                        syndicateForm.style.display = "block";
+                    } else {
+                        alert("Login failed. Please check your credentials.");
+                    }
+                } catch (error) {
+                    console.error("Error during login:", error);
+                }
+            });
 
-  // Syndicate form submit handler
-  syndicateForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const syndicateId = document.getElementById("syndicateid").value;
-    const preparationValidityHours = parseInt(
-      document.getElementById("preparationValidity").value
-    );
+            // Syndicate form submit handler
+            syndicateForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const syndicateId = document.getElementById("syndicateid").value;
+                const preparationValidityHours = parseInt(
+                    document.getElementById("preparationValidity").value
+                );
 
-    const preparationValidity = preparationValidityHours * 3600;
+                const preparationValidity = preparationValidityHours * 3600;
 
-    const updatePayload = {
-      query: `
+                const updatePayload = {
+                    query: `
         mutation UpdateSyndicateSession($input: UpdateSyndicateSessionInput!) {
           updateSyndicateSession(input: $input) {
             syndicateSession {
@@ -179,37 +188,38 @@
           }
         }
       `,
-      variables: {
-        input: {
-          syndicateSessionId: syndicateId,
-          preparationValidity,
-        },
-      },
-    };
+                    variables: {
+                        input: {
+                            syndicateSessionId: syndicateId,
+                            preparationValidity,
+                        },
+                    },
+                };
 
-    try {
-      const response = await fetch("https://www.ambassadoribet.com/_internal/gql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${refreshToken}`,
-        },
-        body: JSON.stringify(updatePayload),
-      });
+                try {
+                    const response = await fetch("https://www.ambassadoribet.com/_internal/gql", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${refreshToken}`,
+                        },
+                        body: JSON.stringify(updatePayload),
+                    });
 
-      const data = await response.json();
-      if (data?.data?.updateSyndicateSession?.syndicateSession) {
-        successMessage.textContent = "Preparation Validity Updated Successfully";
-      } else {
-        alert("Failed to update preparation validity.");
-      }
-    } catch (error) {
-      console.error("Error updating syndicate session:", error);
-    }
-  });
-});
+                    const data = await response.json();
+                    if (data?.data?.updateSyndicateSession?.syndicateSession) {
+                        successMessage.textContent = "Preparation Validity Updated Successfully";
+                    } else {
+                        alert("Failed to update preparation validity.");
+                    }
+                } catch (error) {
+                    console.error("Error updating syndicate session:", error);
+                }
+            });
+        });
 
 
-  </script>
+    </script>
 </body>
+
 </html>
