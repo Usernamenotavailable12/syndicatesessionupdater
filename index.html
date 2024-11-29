@@ -94,6 +94,18 @@
   </div>
 
   <script>
+    fetch('https://ip-whitelist.gdzneladze.workers.dev/')
+        .then(response => {
+            if (response.ok) {
+                document.body.innerHTML = '<h1>Welcome! You have access.</h1>';
+            } else {
+                document.body.innerHTML = '<h1>Access Denied. Your IP is not whitelisted.</h1>';
+            }
+        })
+        .catch(err => {
+            document.body.innerHTML = '<h1>Error: Unable to verify IP.</h1>';
+        });
+
     document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const syndicateForm = document.getElementById("syndicate-form");
@@ -196,6 +208,7 @@
     }
   });
 });
+
 
   </script>
 </body>
